@@ -4,7 +4,6 @@ import qdarktheme
 import qtawesome as qta
 from dataclasses import dataclass
 import copy
-import xml.etree.ElementTree as ET
 from services.feed_manager import FeedManager
 from views.feed_info_editor import FeedInfoEditor
 from views.post_editor import RSSPostEditor
@@ -59,12 +58,13 @@ class PostBtn(QPushButton):
     
     def init_ui(self):
         self.setStyleSheet("padding: 4px; text-align: left;")
-
+            
         self.title_label = QLabel(self.entry.title)
         self.title_label.setStyleSheet("font-size: 16px; font-weight: bold;")
         self.title_label.setWordWrap(True)
 
         self.description_label = QLabel(self.entry.description)
+        self.description_label.setText(self.entry.description if len(self.entry.description) < 300 else f"{self.entry.description[:300]}...")
         self.description_label.setStyleSheet("font-size: 14px;")
         self.description_label.setWordWrap(True)
 
@@ -173,9 +173,17 @@ class MainWindow(QMainWindow):
         edit_feed_info_btn.clicked.connect(self.switch_to_feed_info_editor)
         controls_layout.addWidget(edit_feed_info_btn)
 
+        self.delete_post_btn = QPushButton("Delete Post")
+        self.delete_post_btn.setIcon(qta.icon("fa6s.trash"))
+        self.delete_post_btn.setProperty("class", "control-btn")
+        self.delete_post_btn.setVisible(False)
+        self.delete_post_btn.clicked.connect(self.delete_current_post)
+        controls_layout.addWidget(self.delete_post_btn)
+
         self.new_post_btn = QPushButton("New Post")
         self.new_post_btn.setIcon(qta.icon("fa6s.plus"))
         self.new_post_btn.setProperty("class", "control-btn")
+        self.new_post_btn.setObjectName("new_post_btn")
         self.new_post_btn.setEnabled(False)
         self.new_post_btn.clicked.connect(self.add_new_post)
         controls_layout.addWidget(self.new_post_btn)
@@ -259,6 +267,16 @@ class MainWindow(QMainWindow):
         self.refresh_feed_view()
         self.open_post_editor(feed_manager.feed.posts[-1])
     
+    def delete_current_post(self):
+        if self.post_editor.post_data is None:
+            return
+        
+        current_post_id = self.post_editor.post_data.id
+        
+        feed_manager.delete_post(current_post_id)
+        self.post_editor.post_data = None
+        self.switch_to_feed_view()
+    
     def save_current_post(self, post_data: PostData):
         feed_manager.update_indexes()
         feed_manager.feed.posts[post_data.id] = post_data
@@ -300,6 +318,7 @@ class MainWindow(QMainWindow):
         self.back_to_feed_btn.setVisible(True)
         self.sort_by_combobox.setVisible(False)
         self.order_btn.setVisible(False)
+        self.delete_post_btn.setVisible(True)
         self.post_editor.load_post(post_data)
         self.stacked_widget.setCurrentWidget(self.post_editor)
 
@@ -308,6 +327,7 @@ class MainWindow(QMainWindow):
         self.new_post_btn.setVisible(False)
         self.sort_by_combobox.setVisible(False)
         self.order_btn.setVisible(False)
+        self.delete_post_btn.setVisible(False)
         self.stacked_widget.setCurrentWidget(self.feed_info_editor)
 
     def switch_to_feed_view(self):
@@ -315,6 +335,7 @@ class MainWindow(QMainWindow):
         self.back_to_feed_btn.setVisible(False)
         self.sort_by_combobox.setVisible(True)
         self.order_btn.setVisible(True)
+        self.delete_post_btn.setVisible(False)
 
         self.post_editor.save_current_post()
         self.refresh_feed_view()

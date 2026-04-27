@@ -1,27 +1,11 @@
 from services.highlighter import MarkdownHighlighter
-from dataclasses import dataclass
 from services.feed_manager import PostData
 from PyQt6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QPushButton,
-    QLabel,
     QTextEdit,
     QLineEdit,
     QDateTimeEdit,
-    QSizePolicy,
     QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
     QFormLayout,
-    QScrollArea,
-    QStackedWidget,
-    QDialog,
-    QDialogButtonBox,
-    QFileDialog,
-    QInputDialog,
-    QMessageBox,
-    QComboBox,
 )
 from PyQt6.QtCore import Qt, QDateTime, pyqtSignal
 

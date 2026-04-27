@@ -48,6 +48,10 @@ class FeedManager:
                                 pubdate=QDateTime.currentDateTime().toString(Qt.DateFormat.RFC2822Date))
             self.feed.posts.append(new_post)
             self.update_indexes()
+    
+    def delete_post(self, id):
+        self.feed.posts.pop(id)
+        self.update_indexes()
         
     def update_indexes(self):
         for index, post in enumerate(self.feed.posts):

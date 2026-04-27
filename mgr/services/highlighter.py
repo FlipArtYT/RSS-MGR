@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QSyntaxHighlighter, QTextCharFormat
+from PyQt6.QtGui import QFont, QSyntaxHighlighter, QTextCharFormat, QColor
 import re
 
 class MarkdownHighlighter(QSyntaxHighlighter):
@@ -8,10 +8,10 @@ class MarkdownHighlighter(QSyntaxHighlighter):
 
         # Header formats
         self.header_formats = []
-        for i in range(1, 3):
+        for i in range(1, 7):
             fmt = QTextCharFormat()
             fmt.setFontWeight(QFont.Weight.Bold)
-            fmt.setFontPointSize(20 - (i * 3))  # Decrease font size for higher header levels
+            fmt.setFontPointSize(20 - (i * 1.2))  # Decrease font size for higher header levels
             self.header_formats.append(fmt)
         
         # Bold format
@@ -27,9 +27,15 @@ class MarkdownHighlighter(QSyntaxHighlighter):
         self.link_format.setForeground(Qt.GlobalColor.cyan)
         self.link_format.setUnderlineStyle(QTextCharFormat.UnderlineStyle.SingleUnderline)
 
+        # Code format
+        self.code_format = QTextCharFormat()
+        self.code_format.setFont(QFont("Monospace"))
+        self.code_format.setFontPointSize(10)
+        self.code_format.setBackground(QColor("#303030"))
+
     def highlightBlock(self, text):
         # Highlight headers
-        for i in range(1, 3):
+        for i in range(1, 7):
             pattern = re.compile(r'^(#{' + str(i) + r'})\s+(.*)')
             match = pattern.match(text)
             if match:
@@ -50,3 +56,8 @@ class MarkdownHighlighter(QSyntaxHighlighter):
         for match in re.finditer(r'\[(.*?)\]\((.*?)\)', text):
             start, end = match.span()
             self.setFormat(start, end - start, self.link_format)
+
+        # Highlight code
+        for match in re.finditer(r'`(.*?)`', text):
+            start, end = match.span()
+            self.setFormat(start, end - start, self.code_format)
