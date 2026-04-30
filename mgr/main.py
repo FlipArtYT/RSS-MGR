@@ -27,10 +27,10 @@ from PyQt6.QtWidgets import (
     QComboBox,
 )
 from PyQt6.QtCore import Qt, QDateTime
-from PyQt6.QtGui import QPixmap, QFont, QSyntaxHighlighter, QTextCharFormat
+from PyQt6.QtGui import QPixmap, QIcon
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LOGO_PATH = ""
+LOGO_PATH = os.path.join(SCRIPT_DIR, "assets", "logo.png")
 VERSION_NUMBER = "0.0.0 Alpha"
 
 @dataclass
@@ -359,7 +359,7 @@ class MainWindow(QMainWindow):
         dlg.setFixedSize(240, 325)
 
         logoLabel = QLabel(self)
-        logoLabel.setFixedSize(170, 170)
+        logoLabel.setFixedSize(150, 150)
         logoLabel.setScaledContents(True)
         
         if os.path.exists(LOGO_PATH):
@@ -392,6 +392,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("RSS Feed Manager")
     app.setStyle("Fusion")
+    app.setWindowIcon(QIcon(LOGO_PATH))
 
     additional_qss = """
     QPushButton.control-btn {
