@@ -1,16 +1,16 @@
 from services.highlighter import MarkdownHighlighter
 from services.feed_manager import PostData
-from PyQt6.QtWidgets import (
+from PySide6.QtWidgets import (
     QTextEdit,
     QLineEdit,
     QDateTimeEdit,
     QWidget,
     QFormLayout,
 )
-from PyQt6.QtCore import Qt, QDateTime, pyqtSignal
+from PySide6.QtCore import Qt, QDateTime, Signal
 
 class RSSPostEditor(QWidget):
-    saved_post = pyqtSignal(PostData)
+    saved_post = Signal(PostData)
 
     def __init__(self, parent = None):
         super().__init__(parent)

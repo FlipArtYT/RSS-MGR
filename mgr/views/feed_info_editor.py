@@ -1,11 +1,11 @@
-from PyQt6.QtWidgets import (
+from PySide6.QtWidgets import (
     QWidget,
     QFormLayout,
     QLabel,
     QLineEdit,
     QTextEdit,
 )
-from PyQt6.QtCore import Qt
+from PySide6.QtCore import Qt
 
 class FeedData:
     def __init__(self, title: str = "Untitled Feed", url: str = "", description: str = ""):

@@ -1,6 +1,6 @@
 import feedparser
 from dataclasses import dataclass
-from PyQt6.QtCore import Qt, QDateTime
+from PySide6.QtCore import Qt, QDateTime
 import xml.etree.ElementTree as ET
 
 @dataclass

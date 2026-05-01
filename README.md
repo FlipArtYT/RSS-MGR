@@ -2,15 +2,17 @@
 ![Static Badge](https://img.shields.io/badge/Python-3.14-e9f23d?logo=python&logoColor=white)
 ![Static Badge](https://img.shields.io/badge/PyQt-6.9-41cd52?logo=Qt&labelColor=black)
 <br>
-RSS-MGR is a simple and lightweight PyQt6 RSS feed editor which features a modern GUI and easy management of posts.
+RSS-MGR is a simple and lightweight PySide6 RSS feed editor which features a modern GUI and easy management of posts.
+
+![Main View Preview](/assets/main_view.png)
 
 ## ⭐ Features
-- Modern UI built on the PyQt6 Framework and Font Awesome icons
+- Modern UI built on the PySide6 Framework and Font Awesome icons
 - Easy RSS Feed Import from local files and URLs
 - Markdown support (optional, only currently used for the Silk Project Blog)
 
 ## ⚙️ Requirements
-- `pyqt6`
+- `pyside6`
 - `pyqtdarktheme-fork`
 - `qtawesome`
 - `feedparser`
